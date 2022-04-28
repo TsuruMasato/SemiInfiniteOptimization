@@ -59,7 +59,7 @@ print("Initializing geometries for semi-infinite optimization")
 kinematicscache = geometryopt.RobotKinematicsCache(robot,gridres,pcres)
 
 if DUMP_SDF:
-    for i in xrange(robot.numLinks()):
+    for i in range(robot.numLinks()):
         fn = 'output/'+ robot.link(i).getName()+'.mat'
         print("Saving SDF to",fn)
         geometryopt.dump_grid_mat(kinematicscache.geometry[i].grid,fn)
@@ -70,7 +70,7 @@ def dotest(name,numTrials,**args):
     flog = open(logFile,'w')
     
     try:
-        for trial in xrange(numTrials):
+        for trial in range(numTrials):
             robot.setConfig(configs[0])
             res = planopt.planOptimizedTrajectory(world,robot,configs[1],kinematicsCache=kinematicscache,logFile=flog,**args)
             if res is not None:

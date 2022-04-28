@@ -51,12 +51,12 @@ if world.numRobots() == 0:
 
 robot = world.robot(0)
 obstacles = []
-for i in xrange(1,world.numRobots()):
-    for j in xrange(world.robot(i).numLinks()):
+for i in range(1,world.numRobots()):
+    for j in range(world.robot(i).numLinks()):
         obstacles.append(world.robot(i).link(j))
-for i in xrange(world.numRigidObjects()):
+for i in range(world.numRigidObjects()):
     obstacles.append(world.rigidObject(i))
-#for i in xrange(world.numTerrains()):
+#for i in range(world.numTerrains()):
 #   obstacles.append(world.terrain(i))
 print("%d robots, %d rigid objects, %d terrains"%(world.numRobots(),world.numRigidObjects(),world.numTerrains()))
 assert len(obstacles) > 0
@@ -71,7 +71,7 @@ kinematicscache = geometryopt.RobotKinematicsCache(robot,gridres,pcres)
 trajcache = geometryopt.RobotTrajectoryCache(kinematicscache,NUM_TRAJECTORY_DIVISIONS*MORE_SUBDIVISION+MORE_SUBDIVISION-1)
 
 if DUMP_SDF:
-    for i in xrange(robot.numLinks()):
+    for i in range(robot.numLinks()):
         fn = 'output/'+ robot.link(i).getName()+'.mat'
         print("Saving SDF to",fn)
         geometryopt.dump_grid_mat(trajcache.kinematics.geometry[i].grid,fn)
@@ -240,16 +240,16 @@ if PLOT_CSV_DISTANCES:
     f = open(fn,'w')
     f.write('t')
     for obs in obstacles:
-        for i in xrange(robot.numLinks()):
+        for i in range(robot.numLinks()):
             f.write(',d(%s;%s) init'%(robot.link(i).getName(),obs.getName()))
     for obs in obstacles:
-        for i in xrange(robot.numLinks()):
+        for i in range(robot.numLinks()):
             f.write(',d(%s;%s) opt'%(robot.link(i).getName(),obs.getName()))
     f.write('\n')
     ts = trajinit.times[0]
     te = trajinit.times[-1]
     numdivs = 200
-    for d in xrange(numdivs+1):
+    for d in range(numdivs+1):
         u = float(d)/numdivs
         t = ts + u*(te-ts)
         f.write("%g"%(t,))
@@ -257,16 +257,16 @@ if PLOT_CSV_DISTANCES:
         q = trajinit.eval(t)
         trajcache.kinematics.set(q)
         for j,obs in enumerate(obstacles):
-            ds = [obstaclegeoms[j].distance(trajcache.kinematics.geometry[i])[0] for i in xrange(robot.numLinks())]
-            for i in xrange(robot.numLinks()):
+            ds = [obstaclegeoms[j].distance(trajcache.kinematics.geometry[i])[0] for i in range(robot.numLinks())]
+            for i in range(robot.numLinks()):
                 f.write(',%g'%(ds[i],))
         trajcache.kinematics.clear()
 
         q = trajsolved.eval(t)
         trajcache.kinematics.set(q)
         for j,obs in enumerate(obstacles):
-            ds = [obstaclegeoms[j].distance(trajcache.kinematics.geometry[i])[0] for i in xrange(robot.numLinks())]
-            for i in xrange(robot.numLinks()):
+            ds = [obstaclegeoms[j].distance(trajcache.kinematics.geometry[i])[0] for i in range(robot.numLinks())]
+            for i in range(robot.numLinks()):
                 f.write(',%g'%(ds[i],))
         trajcache.kinematics.clear()
         f.write('\n')
@@ -362,7 +362,7 @@ if DRAW_GRID_AND_PC:
 
 movableObjects = []
 if EDIT_OBJECT_POSE:
-    for i in xrange(world.numRigidObjects()):
+    for i in range(world.numRigidObjects()):
         vis.edit(("world",world.rigidObject(i).getName()))
         movableObjects.append(("world",world.rigidObject(i).getName()))
 
@@ -386,8 +386,8 @@ while vis.shown():
     for i in oldcps:
         vis.hide(i)
     oldcps = []
-    for i in xrange(len(cps)):
-        for j in xrange(len(cps[i])):
+    for i in range(len(cps)):
+        for j in range(len(cps[i])):
             name = "cp(%d,%d)"%(i,j)
             vis.add(name,cps[i][j])
             vis.setColor(name,0,0,0,1)

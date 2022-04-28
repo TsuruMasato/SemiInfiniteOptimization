@@ -18,7 +18,7 @@ try:
     OSQP_ENABLED = True
 except ImportError:
     OSQP_ENABLED = False
-    raise NotImplementedError("OSQP is currently required.  TODO: implement other solvers.")
+    raise NotImplementedError("OSQP is currently required. Are you still using Python2.x?")
 
 DEBUG_GRADIENTS = False
 DEBUG_TRAJECTORY_INITIALIZATION = False
@@ -257,7 +257,7 @@ class ConstraintGenerationData:
                 nsamples = 1
                 if method != 'random':
                     nsamples = int(method[7:])
-                for k in xrange(nsamples):
+                for k in range(nsamples):
                     if isinstance(Y,(list,tuple)):
                         elements = [sampleDomain(Yi) for Yi in Y]
                         newparam = flatten(elements)
@@ -313,10 +313,10 @@ class ConstraintGenerationData:
         q = -P.dot(xdes)
         if regularizationFactor != 0:
             P = P + scipy.sparse.diags([regularizationFactor]*n,format='csc')
-        A = scipy.sparse.csc_matrix(np.array(A))
+        # A = scipy.sparse.csc_matrix(np.array(A))
         #this fails sometimes?
         # A = scipy.sparse.vstack(A,format='csc')
-        #A = scipy.sparse.vstack([scipy.sparse.coo_matrix(v) for v in A],format='csc')
+        A = scipy.sparse.vstack([scipy.sparse.coo_matrix(v) for v in A],format='csc')
         b = np.asarray(b)
         l = -b + np.ones(m)*self.constraint_inflation
         u = np.array([np.inf]*m)
@@ -392,7 +392,7 @@ class ConstraintGenerationData:
         b = np.asarray(b)
         dpred = np.dot(A,xdes) + b
         inside = []
-        for i in xrange(len(b)):
+        for i in range(len(b)):
             if dpred[i] <= 0 or b[i] < 0:
                 inside.append(i)
         if xmin is not None:
@@ -400,7 +400,7 @@ class ConstraintGenerationData:
             k = len(b)
             Afull = [A]
             bfull = [b]
-            for i in xrange(n):
+            for i in range(n):
                 Afull.append([0.0]*n)
                 Afull[-1][i] = 1
                 bfull.append(-xmin[i])
@@ -450,13 +450,13 @@ class ConstraintGenerationData:
                 assert len(W) == Aactive.shape[1]
                 #scale by 1/(wi + regularizationFactor)
                 scaling = np.zeros(len(W))
-                for i in xrange(len(W)):
+                for i in range(len(W)):
                     scaling[i] = 1.0/math.sqrt(W[i] + regularizationFactor)
                     Aactive[:,i] *= scaling[i]
             else:
                 #a matrix
                 H = W[:,:]
-                for i in xrange(H.shape[0]):
+                for i in range(H.shape[0]):
                     H[i,i] += regularizationFactor
                 L = np.linalg.cholesky(H)
                 Linv = scipy.linalg.solve_triangular(L,np.eye(H.shape[0]),lower=True)
@@ -1033,7 +1033,7 @@ def optimizeSemiInfinite(objective,constraints,xinit,xmin=None,xmax=None,setting
             """
             #limit by extrapolations of other points
             if len(inside) < len(cdata.instantiated_params):
-                for i in xrange(len(rows)):
+                for i in range(len(rows)):
                     if depths[i] > 0:
                         dpred = alpha*np.dot(rows[i],dx) + depths[i]
                         if dpred < 0:

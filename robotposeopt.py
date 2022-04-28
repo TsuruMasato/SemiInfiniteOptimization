@@ -40,12 +40,12 @@ if world.numRobots() == 0:
 
 robot = world.robot(0)
 obstacles = []
-for i in xrange(1,world.numRobots()):
-    for j in xrange(world.robot(i).numLinks()):
+for i in range(1,world.numRobots()):
+    for j in range(world.robot(i).numLinks()):
         obstacles.append(world.robot(i).link(j))
-for i in xrange(world.numRigidObjects()):
+for i in range(world.numRigidObjects()):
     obstacles.append(world.rigidObject(i))
-#for i in xrange(world.numTerrains()):
+#for i in range(world.numTerrains()):
 #   obstacles.append(world.terrain(i))
 print("%d robots, %d rigid objects, %d terrains"%(world.numRobots(),world.numRigidObjects(),world.numTerrains()))
 assert len(obstacles) > 0
@@ -54,7 +54,7 @@ print("Created",len(constraints),"constraints")
 
 vis.add("world",world)
 movableObjects = []
-for i in xrange(world.numRigidObjects()):
+for i in range(world.numRigidObjects()):
     vis.edit(("world",world.rigidObject(i).getName()))
     movableObjects.append(("world",world.rigidObject(i).getName()))
 
@@ -72,7 +72,7 @@ assert all(o is not None for o in obstaclegeoms),"Hm... couldn't find obstacle g
 #obstaclegeoms = [PenetrationDepthGeometry(obs.geometry(),gridres,pcres) for obs in obstacles]
 
 if DUMP_SDF:
-    for i in xrange(robot.numLinks()):
+    for i in range(robot.numLinks()):
         fn = 'output/'+ robot.link(i).getName()+'.mat'
         print("Saving SDF to",fn)
         geometryopt.dump_grid_mat(linkgeoms[i].grid,fn)
@@ -152,8 +152,8 @@ while vis.shown():
     for i in oldcps:
         vis.hide(i)
     oldcps = []
-    for i in xrange(len(cps)):
-        for j in xrange(len(cps[i])):
+    for i in range(len(cps)):
+        for j in range(len(cps[i])):
             name = "cp(%d,%d)"%(i,j)
             vis.add(name,cps[i][j][:3])
             vis.setColor(name,0,0,0,1)

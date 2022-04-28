@@ -11,7 +11,7 @@ def arc_length_refine(traj,numNewMilestones):
         metric = traj.robot.distance
     else:
         metric = vectorops.distance
-    lengths = [metric(traj.milestones[i],traj.milestones[i+1]) for i in xrange(len(traj.milestones)-1)]
+    lengths = [metric(traj.milestones[i],traj.milestones[i+1]) for i in range(len(traj.milestones)-1)]
     sumlengths = [0]
     for l in lengths:
         sumlengths.append(sumlengths[-1]+l)
@@ -25,7 +25,7 @@ def arc_length_refine(traj,numNewMilestones):
             lnext += dl
     newtimes = [traj.times[0]]
     for i,n in enumerate(alloc):
-        for j in xrange(n):
+        for j in range(n):
             u = float(j+1) / (n+1)
             newtimes.append(traj.times[i] + (traj.times[i+1]-traj.times[i])*u)
         newtimes.append(traj.times[i+1])
@@ -74,7 +74,7 @@ def planOptimizedTrajectory(world,robot,target,maxTime=float('inf'),numRestarts=
         optimizing = plannerSettings['optimizing']
         plannerSettings = plannerSettings.copy()
         del plannerSettings['optimizing']
-    obstacles = [world.rigidObject(i) for i in xrange(world.numRigidObjects())] + [world.terrain(i) for i in xrange(world.numTerrains())]
+    obstacles = [world.rigidObject(i) for i in range(world.numRigidObjects())] + [world.terrain(i) for i in range(world.numTerrains())]
     obstaclegeoms = [geometryopt.PenetrationDepthGeometry(obs.geometry(),None,0.04) for obs in obstacles]
     t1 = time.time()
     print("Preprocessing took time",t1-t0)
@@ -85,7 +85,7 @@ def planOptimizedTrajectory(world,robot,target,maxTime=float('inf'),numRestarts=
 
     tstart = time.time()
     startConfig = robot.getConfig()
-    for restart in xrange(numRestarts):
+    for restart in range(numRestarts):
         print("***************************************************************")
         #optimize existing best path, if available
         if bestPath is not None and optimizationMaxIters > 0:
@@ -133,7 +133,7 @@ def planOptimizedTrajectory(world,robot,target,maxTime=float('inf'),numRestarts=
             logFile.write("%d,0,%g,sample,%g\n"%(restart,t0-tstart,bestPathCost))
         path = None
         oldpath = None
-        for it in xrange(0,plannerMaxIters,50):
+        for it in range(0,plannerMaxIters,50):
             oldpath = path
             planner.planMore(50)
             t1 = time.time()
@@ -177,7 +177,7 @@ def planOptimizedTrajectory(world,robot,target,maxTime=float('inf'),numRestarts=
                 traj0 = arc_length_refine(path,min(30-len(path.milestones),len(path.milestones)))
             else:
                 traj0 = path
-            traj0.times = [float(i)/(len(traj0.milestones)-1) for i in xrange(len(traj0.times))]
+            traj0.times = [float(i)/(len(traj0.milestones)-1) for i in range(len(traj0.times))]
             trajCache = geometryopt.RobotTrajectoryCache(kinematicsCache,len(traj0.milestones)-2,qstart=startConfig,qend=target)
             trajCache.tstart = 0
             trajCache.tend = traj0.times[-1]
