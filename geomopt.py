@@ -8,7 +8,7 @@ import numpy as np
 import sys
 import time
 from semiinfinite.geometryopt import *
-from semiinfinite.sip import SemiInfiniteOptimizationSettings
+from semiinfinite.sip import *
 
 #you can play with these parameters
 gridres = 0.05
@@ -68,7 +68,7 @@ while vis.shown():
     for i in oldcps:
         vis.hide(i)
     oldcps = []
-    for i in xrange(len(cps)):
+    for i in range(len(cps)):
         name = "cp"+str(i+1)
         vis.add(name,cps[i])
         vis.setColor(name,0,0,0,1)

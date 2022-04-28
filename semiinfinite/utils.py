@@ -46,6 +46,6 @@ def test_gradient(f,fgrad,x,h=1e-4,epsilon=1e-3,name=""):
     valid = True
     for i,v in enumerate(diff):
         if abs(v) > epsilon:
-            print "test_gradient %s: errorneous value %d: numeric %g vs function %g"%(name,i,g_numeric[i],g_calc[i])
+            print("test_gradient {}: errorneous value {}: numeric {} vs function {}".format(name,i,g_numeric[i],g_calc[i]))
             valid = False
     return valid

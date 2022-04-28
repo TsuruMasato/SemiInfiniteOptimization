@@ -3,6 +3,10 @@ from klampt import *
 from klampt.math import vectorops,so3,se3
 from klampt.model.trajectory import Trajectory,RobotTrajectory
 from sip import *
+from semiinfinite.constraint import *
+from semiinfinite.objective import *
+from semiinfinite.sip import *
+
 import numpy as np
 import scipy
 
